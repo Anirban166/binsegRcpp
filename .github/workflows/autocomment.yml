@@ -1,0 +1,75 @@
+name: Autocomment atime-based regression analysis plot on PRs
+
+on:
+  pull_request:
+    branches:
+      - '*'
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    container: ghcr.io/iterative/cml:0-dvc2-base1
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: safe-dir-check
+      env:
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global --add safe.directory /__w/data.table/data.table
+
+    - name: git-switch
+      run: |
+        git switch "${GITHUB_BASE_REF}"
+        git switch "${GITHUB_HEAD_REF}"
+      shell: bash  
+
+    - name: R Setup
+      uses: r-lib/actions/setup-r@v2
+      with:
+        use-public-rspm: true
+
+    - name: Install R dependencies
+      run: |
+        Rscript -e 'install.packages(c("ggplot2", "devtools", "directlabels", "remotes"))'
+
+    - name: Set up required system dependencies (libgit2 and git2r)
+      env:
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y libgit2-dev
+        git clone https://github.com/ropensci/git2r.git
+        cd git2r && make install
+        cd ..
+
+    - name: Set up R packages composing the test infrastructure (atime + customized data.table) and initiate magic  
+      env:
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        R -e 'remotes::install_github("tdhock/atime")'
+        R -e 'atime::atime_pkg(Sys.getenv("GITHUB_WORKSPACE"))'
+
+    - name: Upload results
+      id: artifact-upload-step
+      uses: actions/upload-artifact@v4
+      with:
+        name: atime-results
+        path: inst/atime/
+
+    - name: Push generated plots with relevant information on the PR thread as a GH-bot comment
+      env:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "![Comparison Plot](./inst/atime/tests_all_facet.png)" >> report.md
+        echo "\nGenerated via commit ${{ github.event.pull_request.head.sha }}" >> report.md
+        echo "\nDownload link for the artifact containing the test results: [↓ atime-results.zip](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }})" >> report.md
+        cml comment update report.md
