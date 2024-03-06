@@ -51,7 +51,7 @@ jobs:
         cd git2r && make install
         cd ..
 
-    - name: Set up R packages composing the test infrastructure (atime + customized data.table) and initiate magic  
+    - name: Set up atime and initiate magic
       env:
         GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       run: |
