@@ -5,8 +5,10 @@
 \usage{tree_layout(node.dt, 
     space = 0.5)}
 \arguments{
-  \item{node.dt}{node.dt }
-  \item{space}{space }
+  \item{node.dt}{
+}
+  \item{space}{
+}
 }
 
 

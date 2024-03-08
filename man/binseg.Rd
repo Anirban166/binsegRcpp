@@ -75,8 +75,6 @@ is a data.table with columns:
 
 \examples{
 
-data.table::setDTthreads(1)
-
 x <- c(0.1, 0, 1, 1.1, 0.1, 0)
 ## Compute full path of binary segmentation models from 1 to 6
 ## segments.

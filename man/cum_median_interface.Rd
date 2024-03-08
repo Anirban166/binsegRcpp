@@ -5,8 +5,10 @@
 \usage{cum_median_interface(data_vec, 
     weight_vec)}
 \arguments{
-  \item{data_vec}{data_vec }
-  \item{weight_vec}{weight_vec }
+  \item{data_vec}{
+}
+  \item{weight_vec}{
+}
 }
 
 

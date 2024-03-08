@@ -4,7 +4,8 @@
 \description{Compute tree for empirical binary segmentation model.}
 \usage{get_tree_empirical(fit)}
 \arguments{
-  \item{fit}{fit }
+  \item{fit}{
+}
 }
 
 

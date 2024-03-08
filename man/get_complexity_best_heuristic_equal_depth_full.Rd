@@ -5,8 +5,10 @@
 \usage{get_complexity_best_heuristic_equal_depth_full(N.data, 
     min.segment.length)}
 \arguments{
-  \item{N.data}{N.data }
-  \item{min.segment.length}{min.segment.length }
+  \item{N.data}{
+}
+  \item{min.segment.length}{
+}
 }
 
 

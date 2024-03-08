@@ -6,8 +6,10 @@ complexity.}
 \usage{get_complexity_worst(N.data, 
     min.segment.length)}
 \arguments{
-  \item{N.data}{N.data }
-  \item{min.segment.length}{min.segment.length }
+  \item{N.data}{
+}
+  \item{min.segment.length}{
+}
 }
 
 

@@ -4,7 +4,8 @@
 \description{decoding.}
 \usage{get_complexity_best_optimal_tree(f.dt)}
 \arguments{
-  \item{f.dt}{f.dt }
+  \item{f.dt}{
+}
 }
 
 \value{Data table with one row for each node in the tree.}
